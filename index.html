@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EUGOGO Classification Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+        }
+        .input-group {
+            margin-bottom: 10px;
+        }
+        #result {
+            font-size: 1.2em;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        .normal {
+            background-color: #e0ffe0;
+            color: #333;
+        }
+        .warning {
+            background-color: #ffe0e0;
+            color: #b20000;
+            font-weight: bold;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>EUGOGO Classification Calculator</h1>
+    <p>Select the symptoms to classify the severity of thyroid eye disease (TED) according to the EUGOGO classification.</p>
+
+    <div class="input-group">
+        <label><input type="checkbox" id="mildImpact"> Minimal impact on daily activities</label>
+    </div>
+    <div class="input-group">
+        <label><input type="checkbox" id="mildLidRetraction"> Mild eyelid retraction</label>
+    </div>
+    <div class="input-group">
+        <label><input type="checkbox" id="mildSoftTissue"> Minimal soft tissue involvement</label>
+    </div>
+    <div class="input-group">
+        <label><input type="checkbox" id="noDiplopia"> No or intermittent diplopia (double vision)</label>
+    </div>
+    <hr>
+    <div class="input-group">
+        <label><input type="checkbox" id="modSevLidRetraction"> Moderate to severe eyelid retraction</label>
+    </div>
+    <div class="input-group">
+        <label><input type="checkbox" id="modSevSoftTissue"> Moderate to severe soft tissue involvement</label>
+    </div>
+    <div class="input-group">
+        <label><input type="checkbox" id="diplopia"> Constant or inconstant diplopia</label>
+    </div>
+    <hr>
+    <div class="input-group">
+        <label><input type="checkbox" id="opticNeuropathy"> Optic neuropathy (compression of the optic nerve)</label>
+    </div>
+    <div class="input-group">
+        <label><input type="checkbox" id="cornealBreakdown"> Corneal breakdown</label>
+    </div>
+
+    <button onclick="calculateEUGOGO()">Calculate EUGOGO Classification</button>
+
+    <div id="result"></div>
+
+    <script>
+        function calculateEUGOGO() {
+            // Mild category items
+            const mildImpact = document.getElementById("mildImpact").checked;
+            const mildLidRetraction = document.getElementById("mildLidRetraction").checked;
+            const mildSoftTissue = document.getElementById("mildSoftTissue").checked;
+            const noDiplopia = document.getElementById("noDiplopia").checked;
+
+            // Moderate-to-severe category items
+            const modSevLidRetraction = document.getElementById("modSevLidRetraction").checked;
+            const modSevSoftTissue = document.getElementById("modSevSoftTissue").checked;
+            const diplopia = document.getElementById("diplopia").checked;
+
+            // Sight-threatening category items
+            const opticNeuropathy = document.getElementById("opticNeuropathy").checked;
+            const cornealBreakdown = document.getElementById("cornealBreakdown").checked;
+
+            let resultText = "";
+            let resultClass = "";
+
+            // Check for sight-threatening conditions
+            if (opticNeuropathy || cornealBreakdown) {
+                resultText = "Sight-Threatening Graves' Orbitopathy (GO) - Urgent treatment required!";
+                resultClass = "warning";
+            } 
+            // Check for moderate-to-severe conditions
+            else if (modSevLidRetraction || modSevSoftTissue || diplopia) {
+                resultText = "Moderate-to-Severe Graves' Orbitopathy (GO)";
+                resultClass = "normal";
+            } 
+            // Check for mild conditions
+            else if (mildImpact && mildLidRetraction && mildSoftTissue && noDiplopia) {
+                resultText = "Mild Graves' Orbitopathy (GO)";
+                resultClass = "normal";
+            } 
+            // If no specific symptoms are selected
+            else {
+                resultText = "Insufficient data to classify the severity.";
+                resultClass = "normal";
+            }
+
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerText = resultText;
+            resultDiv.className = resultClass;
+        }
+    </script>
+
+</body>
+</html>
